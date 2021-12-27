@@ -1,10 +1,20 @@
 <template>
   <div class='home'>
+    <!--  Hero  -->
     <Hero />
+
+
+    <!--  Search  -->
     <div class='container search'>
       <input @keyup.enter="$fetch" type='text' placeholder='Search' v-model.lazy='searchInput'>
       <button v-show="searchInput !== ''" @click="clearSearch" class='button'>Clear Search</button>
     </div>
+
+    <!--  Loading  -->
+    <Loading v-if="$fetchState.pending" />
+
+
+    <!--  Movies  -->
     <div class='container movies'>
       <div v-if="searchInput !== ''" id='movie-grid-search' class='movies-grid'>
         <div class='movie' v-for='(movie, index) in searchedMovies' :key='index'>
@@ -74,7 +84,7 @@ export default {
       return
     }
     if (this.searchInput !== '') {
-      await this.searchedMovies
+      await this.searchMovies()
     }
   },
   methods: {
